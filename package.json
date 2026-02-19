@@ -1,0 +1,123 @@
+{
+  "name": "claude-diff",
+  "displayName": "Claude Diff — Review Changes",
+  "description": "Review, accept, and reject changes made by Claude Code with a Cursor-style diff interface",
+  "version": "0.1.0",
+  "publisher": "yourname",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "SCM Providers"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "claudediff.enable",
+        "title": "Claude Diff: Enable Watching"
+      },
+      {
+        "command": "claudediff.disable",
+        "title": "Claude Diff: Disable Watching"
+      },
+      {
+        "command": "claudediff.showReview",
+        "title": "Claude Diff: Show Review Panel",
+        "icon": "$(diff)"
+      },
+      {
+        "command": "claudediff.switchMode",
+        "title": "Claude Diff: Switch Edit Mode"
+      },
+      {
+        "command": "claudediff.acceptAll",
+        "title": "Claude Diff: Accept All Changes"
+      },
+      {
+        "command": "claudediff.rejectAll",
+        "title": "Claude Diff: Reject All Changes"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "claudediff.showReview",
+        "key": "ctrl+shift+4",
+        "mac": "ctrl+shift+4",
+        "when": "!suggestWidgetVisible"
+      },
+      {
+        "command": "claudediff.acceptAll",
+        "key": "ctrl+shift+1",
+        "mac": "ctrl+shift+1",
+        "when": "!suggestWidgetVisible"
+      },
+      {
+        "command": "claudediff.rejectAll",
+        "key": "ctrl+shift+2",
+        "mac": "ctrl+shift+2",
+        "when": "!suggestWidgetVisible"
+      },
+      {
+        "command": "claudediff.switchMode",
+        "key": "ctrl+shift+3",
+        "mac": "ctrl+shift+3",
+        "when": "!suggestWidgetVisible"
+      }
+    ],
+    "menus": {
+      "editor/title": [
+        {
+          "command": "claudediff.showReview",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Claude Diff",
+      "properties": {
+        "claudediff.defaultMode": {
+          "type": "string",
+          "default": "propose",
+          "enum": [
+            "auto",
+            "propose",
+            "ask"
+          ],
+          "enumDescriptions": [
+            "Claude edits files immediately; changes shown for rollback",
+            "Claude stages changes; you apply per-file (recommended)",
+            "Claude asks before editing each file"
+          ],
+          "description": "Default Claude Code edit mode"
+        },
+        "claudediff.autoShowPanel": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically open the review panel when Claude finishes"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "lint": "eslint src --ext ts"
+  },
+  "dependencies": {
+    "chokidar": "^3.5.3",
+    "diff": "^5.1.0"
+  },
+  "devDependencies": {
+    "@types/diff": "^5.0.0",
+    "@types/node": "^18.0.0",
+    "@types/vscode": "^1.85.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.22.0"
+  }
+}
